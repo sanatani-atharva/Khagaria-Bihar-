@@ -1,0 +1,121 @@
+@import 'tailwindcss';
+
+/* Design tokens — Swiss / minimal, high contrast, dense dashboard (see docs/DESIGN.md). */
+@theme {
+  --font-sans: 'Atkinson Hyperlegible', 'Noto Sans Devanagari', ui-sans-serif, system-ui, 'Segoe UI', Roboto, sans-serif;
+  --font-hindi: 'Noto Sans Devanagari', 'Atkinson Hyperlegible', ui-sans-serif, sans-serif;
+
+  --color-ink: #0f172a;          /* primary text, primary buttons, sidebar */
+  --color-ink-2: #334155;        /* secondary text */
+  --color-ink-3: #475569;        /* muted text (4.5:1 on white) */
+  --color-line: #e2e8f0;         /* borders */
+  --color-line-2: #cbd5e1;       /* stronger borders */
+  --color-canvas: #f8fafc;       /* page background */
+  --color-panel: #ffffff;        /* cards */
+  --color-subtle: #f1f5f9;       /* table headers, wells */
+  --color-accent: #0369a1;       /* links, focus, selected */
+  --color-accent-soft: #e0f2fe;
+
+  --color-ok: #15803d;
+  --color-ok-soft: #dcfce7;
+  --color-info: #0369a1;
+  --color-info-soft: #e0f2fe;
+  --color-warn: #b45309;
+  --color-warn-soft: #fef3c7;
+  --color-bad: #b91c1c;
+  --color-bad-soft: #fee2e2;
+  --color-critical: #7f1d1d;
+  --color-critical-soft: #fecaca;
+
+  --radius-card: 10px;
+  --shadow-card: 0 1px 2px rgb(15 23 42 / 0.06);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-canvas text-ink antialiased;
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  :lang(hi),
+  .hi {
+    font-family: var(--font-hindi);
+  }
+  h1, h2, h3 {
+    text-wrap: balance;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+  button:not(:disabled),
+  [role='button'],
+  summary {
+    cursor: pointer;
+  }
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+  /* Browser surfaces carry the palette too. */
+  ::selection {
+    background: var(--color-accent-soft);
+    color: var(--color-ink);
+  }
+  html {
+    scrollbar-color: var(--color-line-2) transparent;
+  }
+  input,
+  textarea {
+    caret-color: var(--color-accent);
+  }
+  a {
+    text-underline-offset: 3px;
+  }
+  /* No single-word last lines in running text. */
+  p,
+  li,
+  dd,
+  figcaption {
+    text-wrap: pretty;
+  }
+}
+
+/* Reduced motion: stop decorative movement (skeleton pulse, smooth scroll) but keep the
+   loading spinner and colour fades, which carry state rather than decoration. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-pulse {
+    animation: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Print: review brief and any page printed from the browser. */
+@media print {
+  @page {
+    size: A4;
+    margin: 14mm 12mm;
+  }
+  body {
+    background: #fff;
+    font-size: 11px;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-break {
+    break-before: page;
+  }
+  .avoid-break {
+    break-inside: avoid;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
